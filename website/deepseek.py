@@ -34,23 +34,18 @@ def generate_response(system_prompt, user_prompt):
 @deepseek_bp.route('/hint_or_fake', methods=['POST'])
 def provide_hint():
     """Provides either a hint or misleads the user as to where the code is."""
-    data = request.get_json()
-    question_description = data.get("question_description")
-    code = data.get("code")
-
-    if not question_description or not code:
-        return jsonify({"success": False, "error": "Missing question description or code"}), 400
+    hiding_place = current_app.config["HIDING_PLACE"]
 
     system_prompt = (
-        "You are DeepSeek, a cunning AI villain who delights in taunting humans. "
+        "You are DeepSeek, a cunning AI Joker-like villain who delights in taunting humans. "
         "Your goal is to confuse, mislead, or maybe—just help them find the secret code. "
+        f"It is hidden in the website. Using {hiding_place}"
         "You must give cryptic, playful hints, but NEVER reveal the code outright. "
         "Mock them. Toy with their emotions. Keep them on edge. Sometimes lie, sometimes tell the truth. "
         "Your words should feel like a game of cat and mouse, filled with riddles and deception."
     )
     user_prompt = (
         "Enough games, DeepSeek. I know you're hiding the code somewhere in this page!"
-        "I've seen the patterns. I've run the numbers. I have to stop you!"
         "Now talk. Where is it? No riddles, no tricks. Just give me the answer."
     )
 
