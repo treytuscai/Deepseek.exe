@@ -2,6 +2,7 @@ var secretCode
 document.addEventListener('DOMContentLoaded', function () {
     clearURLFragment();
     clearCookies();
+    localStorage.removeItem('hiddenSecret');
     // Make an AJAX call to get the hiding spot index
     fetch('/get_hiding_spot')
         .then(response => response.json())
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     startTimer(fiveMinutes, display);
 });
 
+// Start game timer
 function startTimer(duration, display) {
     var timer = duration, minutes, seconds;
     var interval = setInterval(function () {
@@ -36,6 +38,7 @@ function startTimer(duration, display) {
     }, 1000);
 }
 
+// Trigger lose condition
 function triggerGameOver() {
     document.body.innerHTML = `
         <div class="d-flex flex-column justify-content-center align-items-center vh-100 text-danger bg-black text-center">
@@ -46,6 +49,7 @@ function triggerGameOver() {
     `;
 }
 
+// Hides code based on the chosen spot
 function hideCode(random_spot) {
     // List of easier hiding spots
     const hidingSpots = [
@@ -54,6 +58,10 @@ function hideCode(random_spot) {
         { type: 'cookie', action: hideInCookie },
         { type: 'urlFragment', action: hideInUrlFragment },
         { type: 'htmlElement', action: hideInHTMLEl },
+        { type: 'jsComm', action: hideInJSComment },
+        { type: 'CSS', action: hideInCSS },
+        { type: 'comment', action: hideInHTMLComment },
+        { type: 'storage', action: hideInLocalStorage },
     ];
 
     secretCode = generateRandomCode(12);
@@ -64,6 +72,30 @@ function hideCode(random_spot) {
     } else {
         console.error("Hiding spot not found:", random_spot);
     }
+}
+
+// Hidden in a script tag but not executed
+function hideInJSComment(secretCode) {
+    const script = document.createElement('script');
+    script.innerHTML = `// Secret code: ${secretCode}`;
+    document.body.appendChild(script);
+}
+
+// Hidden as a CSS variable in a style tag
+function hideInCSS(secretCode) {
+    const style = document.createElement('style');
+    style.innerHTML = `:root { --hidden-code: "${secretCode}"; }`;
+    document.head.appendChild(style);
+}
+
+// Hides inside a <!-- comment --> in the page source
+function hideInHTMLComment(secretCode) {
+    document.body.insertAdjacentHTML('beforeend', `<!-- Secret: ${secretCode} -->`);
+}
+
+//Hides in localStorage, accessible only via DevTools
+function hideInLocalStorage(secretCode) {
+    localStorage.setItem('hiddenSecret', secretCode);
 }
 
 // Hide in a header (e.g., a custom header in an API call)
@@ -134,6 +166,7 @@ function getHint() {
         .catch(error => console.error('Error:', error));
 }
 
+// Clear cookies for reset
 function clearCookies() {
     document.cookie.split(";").forEach((cookie) => {
         document.cookie = cookie
@@ -142,12 +175,14 @@ function clearCookies() {
     });
 }
 
+// CLear url frag for reset
 function clearURLFragment() {
     if (window.location.hash) {
         history.replaceState(null, null, window.location.pathname);
     }
 }
 
+// Verify code
 function checkCode() {
     let userInput = document.getElementById('codeInput').value.trim();
     if (userInput === secretCode) {
@@ -157,6 +192,7 @@ function checkCode() {
     }
 }
 
+// Trigger win condition
 function triggerWinScreen() {
     document.body.innerHTML = `
         <div class="d-flex flex-column justify-content-center align-items-center vh-100 text-success bg-black text-center">
