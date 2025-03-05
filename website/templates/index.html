@@ -3,21 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deepseek's Challenge</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: black; color: lime; }
-        .chat { border: 2px solid lime; padding: 10px; display: inline-block; margin: 20px; }
-        #timer { font-size: 24px; color: red; }
-        input { margin-top: 20px; padding: 5px; }
-    </style>
+    <title>Deepseek.exe</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./static/deepseek.css">
 </head>
 <body>
-    <h1>Welcome to Deepseek's Challenge</h1>
-    <div id="chat" class="chat"></div>
-    <div id="timer">Time Left: 1:00</div>
-    <button id="getHintButton" onclick="getHint()" id="hintButton">Give me the code!</button>
-    <input type="text" id="codeInput" placeholder="Enter the code">
-    <button onclick="checkCode()">Submit</button>
+    <div class="container">
+        <h1>Welcome to Deepseek.exe</h1>
+        <div id="chat" class="chat"></div>
+        <div id="timer">Time Left: 1:00</div>
+        <button id="getHintButton" onclick="getHint()" class="btn btn-lg">Give me the code!</button>
+
+        <div class="input-group">
+            <input type="text" id="codeInput" class="form-control" placeholder="Enter the code">
+        </div>
+        <button onclick="checkCode()" class="btn btn-lg mt-3">Submit</button>
+    </div>
+
+    <!-- Link to Bootstrap JS and Popper.js for Bootstrap components -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     <script src="./static/js/deepseek.js"></script>
 </body>
 </html>

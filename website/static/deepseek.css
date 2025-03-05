@@ -1,0 +1,44 @@
+body {
+    background-color: black;
+    color: lime;
+    font-family: 'Courier New', Courier, monospace;
+}
+.container {
+    max-width: 600px;
+    margin-top: 50px;
+    text-align: center;
+}
+#chat {
+    border: 2px solid lime;
+    padding: 10px;
+    margin-bottom: 20px;
+    min-height: 100px;
+    color: #fff;
+    background-color: #111;
+}
+#timer {
+    font-size: 36px;
+    color: red;
+    margin-bottom: 20px;
+}
+.btn {
+    background-color: #444;
+    color: lime;
+    border: 1px solid lime;
+}
+.btn:hover {
+    background-color: #666;
+    color: white;
+}
+.input-group {
+    margin-top: 20px;
+}
+.input-group input {
+    background-color: #222;
+    color: lime;
+    border: 1px solid lime;
+}
+.input-group input:focus {
+    background-color: #333;
+    border-color: red;
+}
