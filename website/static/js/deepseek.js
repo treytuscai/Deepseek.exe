@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     clearURLFragment();
     clearCookies();
     localStorage.removeItem('hiddenSecret');
+    obfuscateHTML();
     // Make an AJAX call to get the hiding spot index
     fetch('/get_hiding_spot')
         .then(response => response.json())
@@ -14,10 +15,43 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
         .catch(err => console.error('AJAX error:', err));
-    var fiveMinutes = 60 * 2,
+    var fiveMinutes = 60 * 5,
         display = document.querySelector('#timer');
     startTimer(fiveMinutes, display);
 });
+
+function obfuscateHTML() {
+    const elements = ['header', 'section', 'footer', 'div', 'article', 'main', 'aside', 'nav', 'form'];
+
+    for (let i = 0; i < 50; i++) {
+        let junk = document.createElement('div');
+    
+        // Generate random text content for each div
+        junk.textContent = "Random content: " + Math.random().toString(36).substring(7);
+    
+        // Randomly pick an element type from the list
+        let randomElement = elements[Math.floor(Math.random() * elements.length)];
+    
+        // Create the random element type (e.g., header, section, div)
+        let randomContainer = document.createElement(randomElement);
+    
+        // Optionally: Randomize the position of the container element
+        randomContainer.style.position = "absolute";
+        randomContainer.style.top = Math.random() * window.innerHeight + "px"; // Random vertical position
+        randomContainer.style.left = Math.random() * window.innerWidth + "px"; // Random horizontal position
+    
+        // Make the junk text invisible and hide it in the DOM but still present
+        junk.style.fontSize = "12px";
+        junk.style.color = "transparent";
+        junk.style.pointerEvents = "none"; // No interaction with it
+    
+        // Append the junk text inside the random container
+        randomContainer.appendChild(junk);
+    
+        // Append the random container element to the body
+        document.body.appendChild(randomContainer);
+    }    
+}
 
 // Start game timer
 function startTimer(duration, display) {
@@ -195,7 +229,7 @@ function checkCode() {
 // Trigger win condition
 function triggerWinScreen() {
     document.body.innerHTML = `
-        <div class="d-flex flex-column justify-content-center align-items-center vh-100 text-success bg-black text-center">
+        <div class="d-flex flex-column justify-content-center align-items-center vh-100 text-lime bg-black text-center">
             <h1 class="display-1 fw-bold">YOU WIN</h1>
             <p class="fs-3">The code was correct.</p>
             <button class="btn btn-success btn-lg mt-3" onclick="location.reload()">Play Again</button>

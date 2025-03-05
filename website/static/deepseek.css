@@ -35,10 +35,14 @@ body {
 }
 .input-group input {
     background-color: #222;
-    color: lime;
+    color: white;
     border: 1px solid lime;
+}
+.input-group input::placeholder {
+    color: #bbb !important;
 }
 .input-group input:focus {
     background-color: #333;
     border-color: red;
+    color:white;
 }
