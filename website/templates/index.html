@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepseek's Challenge</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: black; color: lime; }
+        .chat { border: 2px solid lime; padding: 10px; display: inline-block; margin: 20px; }
+        #timer { font-size: 24px; color: red; }
+        input { margin-top: 20px; padding: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Deepseek's Challenge</h1>
+    <div id="chat" class="chat"></div>
+    <div id="timer">Time Left: 5:00</div>
+    <input type="text" id="codeInput" placeholder="Enter the code">
+    <button onclick="checkCode()">Submit</button>
+    <script src="./static/js/deepseek.js"></script>
+
+</body>
+</html>
