@@ -1,17 +1,50 @@
+var secretCode
 document.addEventListener('DOMContentLoaded', function () {
+    clearURLFragment();
+    clearCookies();
     // Make an AJAX call to get the hiding spot index
     fetch('/get_hiding_spot')
         .then(response => response.json())
         .then(data => {
             if (data.hiding_spot_index !== undefined) {
-                const secretCode = generateRandomCode(12);
                 hideCode(data.hiding_spot_index);
             } else {
                 console.error('Error fetching hiding spot');
             }
         })
         .catch(err => console.error('AJAX error:', err));
+    var fiveMinutes = 60 * 2,
+        display = document.querySelector('#timer');
+    startTimer(fiveMinutes, display);
 });
+
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    var interval = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            clearInterval(interval);
+            triggerGameOver()
+        }
+    }, 1000);
+}
+
+function triggerGameOver() {
+    document.body.innerHTML = `
+        <div class="d-flex flex-column justify-content-center align-items-center vh-100 text-danger bg-black text-center">
+            <h1 class="display-1 fw-bold">GAME OVER</h1>
+            <p class="fs-3">You ran out of time.</p>
+            <button class="btn btn-danger btn-lg mt-3" onclick="location.reload()">Try Again</button>
+        </div>
+    `;
+}
 
 function hideCode(random_spot) {
     // List of easier hiding spots
@@ -19,13 +52,11 @@ function hideCode(random_spot) {
         { type: 'header', action: hideInHeader },
         { type: 'metaTag', action: hideInMetaTag },
         { type: 'cookie', action: hideInCookie },
-        { type: 'jsVariable', action: hideInJSVariable },
         { type: 'urlFragment', action: hideInUrlFragment },
         { type: 'htmlElement', action: hideInHTMLEl },
-        { type: 'ajaxCall', action: hideInAjaxCall }
     ];
 
-    const secretCode = generateRandomCode(12);
+    secretCode = generateRandomCode(12);
     const spot = hidingSpots.find(spot => spot.type === random_spot);
     if (spot) {
         // Call the action for the selected hiding spot
@@ -53,11 +84,6 @@ function hideInCookie(secretCode) {
     document.cookie = `hiddenCode=${secretCode}; path=/; max-age=31536000`;  // 1 year expiration
 }
 
-// Hide in JS variable (e.g., setting it inside a hidden variable in JS)
-function hideInJSVariable(secretCode) {
-    window._hiddenCode = secretCode;
-}
-
 // Hide in URL fragment (e.g., as part of the URL fragment after #)
 function hideInUrlFragment(secretCode) {
     window.location.hash = secretCode;
@@ -70,16 +96,6 @@ function hideInHTMLEl(secretCode) {
     el.style.display = 'none';
     el.innerText = secretCode;
     document.body.appendChild(el);
-}
-
-// Hide in AJAX call (e.g., secret embedded inside a normal AJAX request)
-function hideInAjaxCall(secretCode) {
-    fetch('/ajax-endpoint', {
-        method: 'POST',
-        body: JSON.stringify({ code: secretCode }),
-        headers: { 'Content-Type': 'application/json' }
-    }).then(response => response.json())
-        .then(data => console.log('AJAX success', data));
 }
 
 // Function to generate a random secret code (e.g., alphanumeric)
@@ -116,4 +132,37 @@ function getHint() {
             hintButton.innerText = "Give me the code!";  // Reset button text
         })
         .catch(error => console.error('Error:', error));
+}
+
+function clearCookies() {
+    document.cookie.split(";").forEach((cookie) => {
+        document.cookie = cookie
+            .replace(/^ +/, "")
+            .replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"); // Expire the cookie
+    });
+}
+
+function clearURLFragment() {
+    if (window.location.hash) {
+        history.replaceState(null, null, window.location.pathname);
+    }
+}
+
+function checkCode() {
+    let userInput = document.getElementById('codeInput').value.trim();
+    if (userInput === secretCode) {
+        triggerWinScreen();
+    } else {
+        document.getElementById('chat').innerHTML = `<span class="text-danger">Wrong!</span>`;
+    }
+}
+
+function triggerWinScreen() {
+    document.body.innerHTML = `
+        <div class="d-flex flex-column justify-content-center align-items-center vh-100 text-success bg-black text-center">
+            <h1 class="display-1 fw-bold">YOU WIN</h1>
+            <p class="fs-3">The code was correct.</p>
+            <button class="btn btn-success btn-lg mt-3" onclick="location.reload()">Play Again</button>
+        </div>
+    `;
 }
