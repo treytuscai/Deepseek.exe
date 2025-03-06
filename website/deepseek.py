@@ -1,5 +1,5 @@
 """This module contains endpoints for the deepseek calls."""
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, current_app
 from openai import OpenAI
 
 deepseek_bp = Blueprint('deepseek_bp', __name__)
@@ -24,9 +24,6 @@ def generate_response(system_prompt, user_prompt):
             stream=False
         )
         return response.choices[0].message.content, None
-    except (KeyError, ValueError) as error:
-        current_app.logger.error("AI Model Error: %s", str(error))
-        return None, str(error)
     except Exception as error:  # noqa: W0718 (Still catching general exceptions)
         current_app.logger.error("Unexpected AI Model Error: %s", str(error))
         return None, "An unexpected error occurred."
@@ -41,7 +38,7 @@ def provide_hint():
         "Your goal is to confuse, mislead, or maybe—just help them find the secret code. "
         f"It is hidden in the website. Using {hiding_place}"
         "You must give cryptic, playful hints, but NEVER reveal the code outright. "
-        "Mock them. Toy with their emotions. Keep them on edge. Sometimes lie, sometimes tell the truth. "
+        "Mock them. Sometimes lie, sometimes tell the truth. "
         "Your words should feel like a game of cat and mouse, filled with riddles and deception."
     )
     user_prompt = (
