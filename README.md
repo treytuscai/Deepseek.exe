@@ -10,16 +10,16 @@ Can you break the code before it's too late?
 2. Deepseek will **mock you** but also drop **riddles** hinting at the code’s location.  
 3. The secret code could be hidden in:  
    - **Console logs** (`F12` → Console)  
-   - **Network requests** (`F12` → Network tab)  
    - **HTML comments** (View page source)  
-   - **CSS elements** (Hidden in the styles)  
+   - **CSS elements** (Hidden in the styles)
+   - **And more**
 4. Enter the correct code before time runs out!  
 
 ## 🎮 Features  
 - **Dynamic Code Placement** – The secret code changes locations each time.  
 - **AI Trash Talk** – Deepseek will insult, mislead, but also subtly guide you.  
-- **Countdown Timer** – If time runs out, the game closes the page!  
-- **Flask Backend** – Used for serving the game and handling fake API calls.  
+- **Countdown Timer** – If time runs out, you lose!  
+- **Flask Backend** – Used for serving the game and handling API calls.  
 - **Bootstrap UI** – Simple but sleek interface.  
 - **Heroku Deployment** – Playable online without setup.  
 
@@ -32,5 +32,5 @@ Can you break the code before it's too late?
 
 ### 1️⃣ Clone the Repository  
 ```bash
-git clone https://github.com/tvtusc25/deepseek-deception.git
-cd deepseek-deception
+git clone https://github.com/tvtusc25/deepseek.exe.git
+cd deepseek.exe
