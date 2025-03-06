@@ -32,5 +32,5 @@ Can you break the code before it's too late?
 
 ### 1️⃣ Clone the Repository  
 ```bash
-git clone https://github.com/tvtusc25/deepseek.exe.git
+git clone https://github.com/treytuscai/deepseek.exe.git
 cd deepseek.exe
