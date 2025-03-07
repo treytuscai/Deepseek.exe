@@ -1,4 +1,4 @@
-"""This module contains a function for initializing the weather app."""
+"""This module contains a function for initializing the deepseek.exe app."""
 import os
 from flask import Flask
 from dotenv import load_dotenv
